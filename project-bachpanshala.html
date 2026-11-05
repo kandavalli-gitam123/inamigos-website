@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Bachpanshala</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #1f5fbf;
+    --accent-soft: #e8f0fc;
+    --ink: #1d1d1f;
+    --muted: #5f6368;
+    --line: #e6e6e6;
+    --bg: #ffffff;
+    --bg-alt: #f8fafd;
+    --radius: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --accent: #6aa1ff; --accent-soft: #1a2638; --ink: #f2f2f2; --muted: #a8a8a8;
+      --line: #2e2e2e; --bg: #121212; --bg-alt: #171a1f;
+    }
+  }
+  :root[data-theme="dark"] {
+    --accent: #6aa1ff; --accent-soft: #1a2638; --ink: #f2f2f2; --muted: #a8a8a8;
+    --line: #2e2e2e; --bg: #121212; --bg-alt: #171a1f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "Poppins", system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+  a { color: var(--accent); }
+
+  nav { position: sticky; top: 0; background: var(--bg); border-bottom: 1px solid var(--line); z-index: 10; }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 12px; }
+  .brand { font-weight: 700; font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+  .brand span { color: var(--accent); }
+  .links { display: flex; gap: 18px; }
+  .links a { color: var(--muted); text-decoration: none; font-size: .9rem; }
+  .links a:hover { color: var(--accent); }
+  @media (max-width: 640px) { .links { display: none; } }
+
+  .hero { padding: 72px 0 56px; text-align: center; }
+  .tag { display: inline-block; background: var(--accent-soft); color: var(--accent); font-size: .8rem; font-weight: 600; padding: 4px 12px; border-radius: 99px; margin-bottom: 16px; }
+  h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.15; margin-bottom: 14px; }
+  h1 span { color: var(--accent); }
+  .hero p { color: var(--muted); max-width: 560px; margin: 0 auto 28px; }
+  .btn { display: inline-block; padding: 12px 24px; border-radius: 99px; font-weight: 600; text-decoration: none; border: 2px solid var(--accent); cursor: pointer; font-family: inherit; font-size: .95rem; transition: .2s; }
+  .btn-main { background: var(--accent); color: #fff; }
+  .btn-main:hover { opacity: .9; }
+  .btn-line { background: transparent; color: var(--accent); }
+  .btn-line:hover { background: var(--accent-soft); }
+  .btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  section { padding: 56px 0; }
+  section.alt { background: var(--bg-alt); }
+  h2 { font-size: 1.6rem; margin-bottom: 8px; text-align: center; }
+  .sub { color: var(--muted); text-align: center; margin-bottom: 32px; }
+  .note { font-size: .78rem; color: var(--muted); text-align: center; margin-top: 14px; }
+
+  /* Focus areas */
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  @media (max-width: 760px) { .cards { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 460px) { .cards { grid-template-columns: 1fr; } }
+  .card { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; text-align: center; transition: .2s; }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .card .ic { font-size: 2rem; }
+  .card h4 { margin: 6px 0 4px; }
+  .card p { color: var(--muted); font-size: .88rem; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
+  .tab { padding: 8px 16px; border-radius: 99px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font-family: inherit; font-size: .88rem; cursor: pointer; }
+  .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .panel { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; display: flex; gap: 20px; align-items: flex-start; }
+  .panel .icon { font-size: 2.4rem; line-height: 1; }
+  .panel h3 { margin-bottom: 6px; }
+  .panel p { color: var(--muted); }
+
+  /* Kit builder */
+  .kit { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; max-width: 640px; margin: 0 auto; }
+  .item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .item:last-of-type { border-bottom: none; }
+  .item input[type=checkbox] { width: 20px; height: 20px; accent-color: var(--accent); flex-shrink: 0; }
+  .item label { flex: 1; cursor: pointer; }
+  .price { display: flex; align-items: center; gap: 4px; color: var(--muted); }
+  .price input { width: 72px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; font-family: inherit; background: var(--bg); color: var(--ink); text-align: right; }
+  .kids { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 18px 0; flex-wrap: wrap; }
+  .stepper { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 99px; overflow: hidden; }
+  .stepper button { width: 38px; height: 38px; border: none; background: var(--accent-soft); color: var(--accent); font-size: 1.2rem; cursor: pointer; }
+  .stepper span { min-width: 44px; text-align: center; font-weight: 600; }
+  .result { background: var(--accent-soft); border-radius: var(--radius); padding: 20px; text-align: center; }
+  .result b { font-size: 2.2rem; color: var(--accent); display: block; }
+
+  /* Steps */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: s; }
+  @media (max-width: 760px) { .steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 460px) { .steps { grid-template-columns: 1fr; } }
+  .step { border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; background: var(--bg); }
+  .step::before { counter-increment: s; content: counter(s); display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 600; margin-bottom: 10px; }
+  .step h4 { margin-bottom: 4px; }
+  .step p { color: var(--muted); font-size: .9rem; }
+
+  .faq { max-width: 700px; margin: 0 auto; }
+  details { border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 10px; background: var(--bg); }
+  summary { padding: 16px 20px; cursor: pointer; font-weight: 500; list-style: none; display: flex; justify-content: space-between; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--accent); font-size: 1.3rem; line-height: 1; }
+  details[open] summary::after { content: "–"; }
+  details p { padding: 0 20px 16px; color: var(--muted); }
+
+  .cta { text-align: center; }
+  .cta p { color: var(--muted); margin-bottom: 24px; }
+  footer { border-top: 1px solid var(--line); padding: 28px 0; font-size: .85rem; color: var(--muted); text-align: center; }
+  footer p + p { margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="index.html" title="Back to InAmigos home">Project <span>Bachpanshala</span></a>
+    <div class="links">
+      <a href="index.html">← Home</a>
+      <a href="#focus">Focus</a>
+      <a href="#work">What we do</a>
+      <a href="#kit">School kit</a>
+      <a href="#join">Get involved</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="tag">An InAmigos Foundation initiative</div>
+    <h1>Every child deserves a <span>classroom</span>.</h1>
+    <p>Project Bachpanshala helps children in rural and underprivileged areas get an education, with books, supplies and learning support so that money is never the reason a child stops learning.</p>
+    <div class="btns">
+      <a class="btn btn-main" href="#join">Get involved</a>
+      <a class="btn btn-line" href="#work">See what we do</a>
+    </div>
+  </div>
+</header>
+
+<section class="alt" id="focus">
+  <div class="wrap">
+    <h2>Four areas of focus</h2>
+    <p class="sub">Learning works best when the basics are in place.</p>
+    <div class="cards">
+      <div class="card"><div class="ic">📚</div><h4>Education</h4><p>Classes and learning support for children who are out of school or falling behind.</p></div>
+      <div class="card"><div class="ic">🛠️</div><h4>Skills</h4><p>Practical and basic digital skills that build confidence for the future.</p></div>
+      <div class="card"><div class="ic">🩺</div><h4>Health</h4><p>Awareness and basic care, because a healthy child learns better.</p></div>
+      <div class="card"><div class="ic">🏡</div><h4>Safe space</h4><p>A friendly place where children feel welcome to learn and play.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <h2>What Bachpanshala does</h2>
+    <p class="sub">Tap a programme to learn more.</p>
+    <div class="tabs" role="tablist"></div>
+    <div class="panel">
+      <div class="icon" id="p-icon"></div>
+      <div><h3 id="p-title"></h3><p id="p-text"></p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="kit">
+  <div class="wrap">
+    <h2>Build a school kit</h2>
+    <p class="sub">Pick the items, set prices for your area, and see what it takes to equip a group of children.</p>
+    <div class="kit">
+      <div id="items"></div>
+      <div class="kids">
+        <strong>Number of children</strong>
+        <div class="stepper">
+          <button id="minus" aria-label="Fewer children">−</button>
+          <span id="kids">5</span>
+          <button id="plus" aria-label="More children">+</button>
+        </div>
+      </div>
+      <div class="result">
+        <span id="per-kid">₹0 per child</span>
+        <b id="total">₹0</b>
+        <span>total for the group</span>
+      </div>
+      <p class="note">Prices are example figures you can edit. Actual costs vary by place and supplier.</p>
+    </div>
+  </div>
+</section>
+
+<section id="join">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="sub">From finding a child to keeping them in class.</p>
+    <div class="steps">
+      <div class="step"><h4>Reach out</h4><p>Volunteers visit rural areas and communities to find children who are out of school or struggling.</p></div>
+      <div class="step"><h4>Equip</h4><p>Children receive books, stationery, uniforms and other essentials they need to study.</p></div>
+      <div class="step"><h4>Teach</h4><p>Community classes, often held outdoors, help children catch up and keep learning.</p></div>
+      <div class="step"><h4>Support</h4><p>Where possible, help with school fees keeps children enrolled for the long term.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt cta">
+  <div class="wrap">
+    <h2>Be part of Bachpanshala</h2>
+    <p>Teach a class, donate school supplies, or help spread the word.</p>
+    <div class="btns">
+      <a class="btn btn-main" href="https://inamigosfoundation.org.in/" target="_blank" rel="noopener">Visit the foundation</a>
+      <a class="btn btn-line" href="https://www.instagram.com/inamigos/" target="_blank" rel="noopener">Follow on Instagram</a>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Questions</h2>
+    <p class="sub">Things people often ask.</p>
+    <div class="faq">
+      <details><summary>Who runs Project Bachpanshala?</summary><p>Project Bachpanshala is run by InAmigos Foundation, a Section 8 non-profit company founded on 23 September 2020 and based in Bilaspur, Chhattisgarh.</p></details>
+      <details><summary>Which children does it help?</summary><p>Children in rural and underprivileged areas who cannot attend school or keep up with their studies because of economic or social barriers.</p></details>
+      <details><summary>Can I volunteer as a teacher?</summary><p>Yes. The foundation offers a Community Teacher volunteer role. Contact the team to find out about current openings.</p></details>
+      <details><summary>Can I donate books or stationery?</summary><p>School supplies are a core part of Bachpanshala. Contact the foundation to arrange a donation of books, stationery or uniforms.</p></details>
+      <details><summary>How do I contact the team?</summary><p>Email inamigosfoundation@gmail.com or call +91 626 730 9902.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Project Bachpanshala · InAmigos Foundation · Bilaspur, Chhattisgarh</p>
+    <p>Ward No. 5, Gram Post, Sipat Ujwal Nagar, Bilaspur 495555</p>
+    <p style="margin-top:12px"><a href="index.html">InAmigos Foundation home</a> · <a href="project-seva.html">Seva</a> · <strong>Bachpanshala</strong> · <a href="project-udaan.html">Udaan</a> · <a href="project-jeev.html">Jeev</a> · <a href="project-prakriti.html">Prakriti</a> · <a href="project-vikas.html">Vikas</a></p>
+  </div>
+</footer>
+
+<script>
+  // Programme tabs
+  const programmes = [
+    { name: "Community classes", icon: "🧑‍🏫", title: "Community classes",
+      text: "Volunteer-led classes in villages and neighbourhoods, helping children who are out of school learn to read, write and count." },
+    { name: "School supplies", icon: "✏️", title: "Books and stationery",
+      text: "Notebooks, pens, pencils, school bags and textbooks for students who cannot afford them." },
+    { name: "Uniforms & fees", icon: "🎒", title: "Sponsoring education",
+      text: "Support with uniforms and school fees so that children can stay enrolled instead of dropping out." },
+    { name: "Digital literacy", icon: "💻", title: "Basic digital literacy",
+      text: "An introduction to phones, computers and the internet, so children are not left behind in a digital world." }
+  ];
+  const tabsEl = document.querySelector(".tabs");
+  function show(i) {
+    const p = programmes[i];
+    document.getElementById("p-icon").textContent = p.icon;
+    document.getElementById("p-title").textContent = p.title;
+    document.getElementById("p-text").textContent = p.text;
+    tabsEl.querySelectorAll(".tab").forEach((t, j) => t.classList.toggle("active", i === j));
+  }
+  programmes.forEach((p, i) => {
+    const b = document.createElement("button");
+    b.className = "tab"; b.textContent = p.name; b.setAttribute("role", "tab");
+    b.onclick = () => show(i);
+    tabsEl.appendChild(b);
+  });
+  show(0);
+
+  // School kit builder (example prices, editable)
+  const kit = [
+    { name: "Notebooks (set of 5)", price: 150, on: true },
+    { name: "Pens, pencils & eraser", price: 60, on: true },
+    { name: "School bag", price: 300, on: true },
+    { name: "Textbooks", price: 400, on: false },
+    { name: "Uniform", price: 500, on: false }
+  ];
+  let kids = 5;
+  const itemsEl = document.getElementById("items");
+  const fmt = n => "₹" + Math.round(n).toLocaleString("en-IN");
+
+  kit.forEach((k, i) => {
+    const row = document.createElement("div");
+    row.className = "item";
+    row.innerHTML =
+      `<input type="checkbox" id="k${i}" ${k.on ? "checked" : ""}>
+       <label for="k${i}">${k.name}</label>
+       <div class="price">₹<input type="number" min="0" step="10" value="${k.price}" aria-label="Price of ${k.name}"></div>`;
+    row.querySelector("input[type=checkbox]").onchange = e => { k.on = e.target.checked; calc(); };
+    row.querySelector("input[type=number]").oninput = e => { k.price = Math.max(0, +e.target.value || 0); calc(); };
+    itemsEl.appendChild(row);
+  });
+
+  function calc() {
+    const per = kit.filter(k => k.on).reduce((s, k) => s + k.price, 0);
+    document.getElementById("kids").textContent = kids;
+    document.getElementById("per-kid").textContent = fmt(per) + " per child";
+    document.getElementById("total").textContent = fmt(per * kids);
+  }
+  document.getElementById("minus").onclick = () => { if (kids > 1) { kids--; calc(); } };
+  document.getElementById("plus").onclick = () => { if (kids < 500) { kids++; calc(); } };
+  calc();
+</script>
+</body>
+</html>

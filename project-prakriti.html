@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Prakriti</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #2e8b57;
+    --accent-soft: #e8f5ee;
+    --ink: #1d1d1f;
+    --muted: #5f6368;
+    --line: #e6e6e6;
+    --bg: #ffffff;
+    --bg-alt: #f7fbf8;
+    --radius: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --accent: #5fd08f; --accent-soft: #17301f; --ink: #f2f2f2; --muted: #a8a8a8;
+      --line: #2e2e2e; --bg: #121212; --bg-alt: #151c17;
+    }
+  }
+  :root[data-theme="dark"] {
+    --accent: #5fd08f; --accent-soft: #17301f; --ink: #f2f2f2; --muted: #a8a8a8;
+    --line: #2e2e2e; --bg: #121212; --bg-alt: #151c17;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "Poppins", system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+  a { color: var(--accent); }
+
+  nav { position: sticky; top: 0; background: var(--bg); border-bottom: 1px solid var(--line); z-index: 10; }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 12px; }
+  .brand { font-weight: 700; font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+  .brand span { color: var(--accent); }
+  .links { display: flex; gap: 18px; }
+  .links a { color: var(--muted); text-decoration: none; font-size: .9rem; }
+  .links a:hover { color: var(--accent); }
+  @media (max-width: 640px) { .links { display: none; } }
+
+  .hero { padding: 72px 0 56px; text-align: center; }
+  .tag { display: inline-block; background: var(--accent-soft); color: var(--accent); font-size: .8rem; font-weight: 600; padding: 4px 12px; border-radius: 99px; margin-bottom: 16px; }
+  h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.15; margin-bottom: 14px; }
+  h1 span { color: var(--accent); }
+  .hero p { color: var(--muted); max-width: 560px; margin: 0 auto 28px; }
+  .btn { display: inline-block; padding: 12px 24px; border-radius: 99px; font-weight: 600; text-decoration: none; border: 2px solid var(--accent); cursor: pointer; font-family: inherit; font-size: .95rem; transition: .2s; }
+  .btn-main { background: var(--accent); color: #fff; }
+  .btn-main:hover { opacity: .9; }
+  .btn-line { background: transparent; color: var(--accent); }
+  .btn-line:hover { background: var(--accent-soft); }
+  .btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  section { padding: 56px 0; }
+  section.alt { background: var(--bg-alt); }
+  h2 { font-size: 1.6rem; margin-bottom: 8px; text-align: center; }
+  .sub { color: var(--muted); text-align: center; margin-bottom: 32px; }
+  .note { font-size: .78rem; color: var(--muted); text-align: center; margin-top: 14px; }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 640px) { .stats { grid-template-columns: 1fr; } }
+  .stat { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; text-align: center; }
+  .stat b { display: block; font-size: 2rem; color: var(--accent); }
+  .stat small { color: var(--muted); }
+
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
+  .tab { padding: 8px 16px; border-radius: 99px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font-family: inherit; font-size: .88rem; cursor: pointer; }
+  .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .panel { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; display: flex; gap: 20px; align-items: flex-start; }
+  .panel .icon { font-size: 2.4rem; line-height: 1; }
+  .panel h3 { margin-bottom: 6px; }
+  .panel p { color: var(--muted); }
+
+  /* Green pledge */
+  .pledge { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; max-width: 680px; margin: 0 auto; display: grid; grid-template-columns: 1fr 180px; gap: 24px; align-items: center; }
+  @media (max-width: 600px) { .pledge { grid-template-columns: 1fr; } }
+  .habit { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .habit:last-child { border-bottom: none; }
+  .habit input { width: 20px; height: 20px; accent-color: var(--accent); flex-shrink: 0; }
+  .habit .ic { font-size: 1.2rem; }
+  .tree-box { text-align: center; }
+  .ring { position: relative; width: 150px; height: 150px; margin: 0 auto 10px; }
+  .ring svg { transform: rotate(-90deg); }
+  .ring .bgc { stroke: var(--line); }
+  .ring .fg { stroke: var(--accent); transition: stroke-dashoffset .4s ease; }
+  .ring .mid { position: absolute; inset: 0; display: grid; place-items: center; font-size: 3rem; transition: transform .3s; }
+  .level { font-weight: 600; color: var(--accent); }
+  .level-sub { font-size: .85rem; color: var(--muted); }
+
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: s; }
+  @media (max-width: 760px) { .steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 460px) { .steps { grid-template-columns: 1fr; } }
+  .step { border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; background: var(--bg); }
+  .step::before { counter-increment: s; content: counter(s); display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 600; margin-bottom: 10px; }
+  .step h4 { margin-bottom: 4px; }
+  .step p { color: var(--muted); font-size: .9rem; }
+
+  .faq { max-width: 700px; margin: 0 auto; }
+  details { border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 10px; background: var(--bg); }
+  summary { padding: 16px 20px; cursor: pointer; font-weight: 500; list-style: none; display: flex; justify-content: space-between; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--accent); font-size: 1.3rem; line-height: 1; }
+  details[open] summary::after { content: "–"; }
+  details p { padding: 0 20px 16px; color: var(--muted); }
+
+  .cta { text-align: center; }
+  .cta p { color: var(--muted); margin-bottom: 24px; }
+  footer { border-top: 1px solid var(--line); padding: 28px 0; font-size: .85rem; color: var(--muted); text-align: center; }
+  footer p + p { margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="index.html" title="Back to InAmigos home">Project <span>Prakriti</span></a>
+    <div class="links">
+      <a href="index.html">← Home</a>
+      <a href="#impact">Impact</a>
+      <a href="#work">What we do</a>
+      <a href="#pledge">Green pledge</a>
+      <a href="#join">Get involved</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="tag">An InAmigos Foundation initiative</div>
+    <h1>Plant today for a <span>greener tomorrow</span>.</h1>
+    <p>Project Prakriti protects the environment through tree planting, clean-up drives and plastic-free campaigns, one neighbourhood at a time.</p>
+    <div class="btns">
+      <a class="btn btn-main" href="#join">Get involved</a>
+      <a class="btn btn-line" href="#pledge">Take the green pledge</a>
+    </div>
+  </div>
+</header>
+
+<section class="alt" id="impact">
+  <div class="wrap">
+    <h2>Impact so far</h2>
+    <p class="sub">Since the foundation began in September 2020.</p>
+    <div class="stats">
+      <div class="stat"><b data-count="20000" data-suffix="+">0</b><small>Trees planted</small></div>
+      <div class="stat"><b>🧹</b><small>Street clean-ups in urban and rural areas</small></div>
+      <div class="stat"><b data-count="2020" data-suffix="">0</b><small>Year Prakriti began</small></div>
+    </div>
+    <p class="note">Figures as reported by InAmigos Foundation.</p>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <h2>What Prakriti does</h2>
+    <p class="sub">Tap a programme to learn more.</p>
+    <div class="tabs" role="tablist"></div>
+    <div class="panel">
+      <div class="icon" id="p-icon"></div>
+      <div><h3 id="p-title"></h3><p id="p-text"></p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="pledge">
+  <div class="wrap">
+    <h2>Take the green pledge</h2>
+    <p class="sub">Tick the habits you'll commit to and watch your tree grow.</p>
+    <div class="pledge">
+      <div id="habits"></div>
+      <div class="tree-box">
+        <div class="ring">
+          <svg width="150" height="150" viewBox="0 0 150 150">
+            <circle class="bgc" cx="75" cy="75" r="64" fill="none" stroke-width="10"/>
+            <circle class="fg" id="ring" cx="75" cy="75" r="64" fill="none" stroke-width="10" stroke-linecap="round"/>
+          </svg>
+          <div class="mid" id="tree">🌰</div>
+        </div>
+        <div class="level" id="level">Seed</div>
+        <div class="level-sub" id="level-sub">0 of 8 habits</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="join">
+  <div class="wrap">
+    <h2>How a drive works</h2>
+    <p class="sub">From planning to a cleaner, greener place.</p>
+    <div class="steps">
+      <div class="step"><h4>Choose</h4><p>Volunteers pick a spot that needs trees or a clean-up: a roadside, park or village area.</p></div>
+      <div class="step"><h4>Gather</h4><p>Saplings, gloves, bags and bins are arranged, and local people are invited to join.</p></div>
+      <div class="step"><h4>Act</h4><p>Teams plant saplings, clear litter and set up waste segregation points.</p></div>
+      <div class="step"><h4>Nurture</h4><p>Saplings are watered and protected so they grow into healthy trees.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt cta">
+  <div class="wrap">
+    <h2>Be part of Prakriti</h2>
+    <p>Plant a tree, join a clean-up, or help spread the word.</p>
+    <div class="btns">
+      <a class="btn btn-main" href="https://inamigosfoundation.org.in/" target="_blank" rel="noopener">Visit the foundation</a>
+      <a class="btn btn-line" href="https://www.instagram.com/inamigos/" target="_blank" rel="noopener">Follow on Instagram</a>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Questions</h2>
+    <p class="sub">Things people often ask.</p>
+    <div class="faq">
+      <details><summary>Who runs Project Prakriti?</summary><p>Project Prakriti is run by InAmigos Foundation, a Section 8 non-profit company founded on 23 September 2020 and based in Bilaspur, Chhattisgarh.</p></details>
+      <details><summary>What kind of trees are planted?</summary><p>Native trees suited to the local climate are the best choice, as they grow well and support local birds and insects. Ask the team about the saplings used in your area.</p></details>
+      <details><summary>Can I plant a tree on my own?</summary><p>Yes. Pick a native sapling, plant it where it has room to grow, and water it regularly for the first couple of years. Share a photo with the foundation to be part of the movement.</p></details>
+      <details><summary>Can my school or college host a drive?</summary><p>Yes. Contact the foundation to plan a tree-planting or clean-up drive with your group.</p></details>
+      <details><summary>How do I contact the team?</summary><p>Email inamigosfoundation@gmail.com or call +91 626 730 9902.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Project Prakriti · InAmigos Foundation · Bilaspur, Chhattisgarh</p>
+    <p>Ward No. 5, Gram Post, Sipat Ujwal Nagar, Bilaspur 495555</p>
+    <p style="margin-top:12px"><a href="index.html">InAmigos Foundation home</a> · <a href="project-seva.html">Seva</a> · <a href="project-bachpanshala.html">Bachpanshala</a> · <a href="project-udaan.html">Udaan</a> · <a href="project-jeev.html">Jeev</a> · <strong>Prakriti</strong> · <a href="project-vikas.html">Vikas</a></p>
+  </div>
+</footer>
+
+<script>
+  // Programme tabs
+  const programmes = [
+    { name: "Tree planting", icon: "🌳", title: "Tree planting drives",
+      text: "Volunteers plant saplings in neighbourhoods, schools and villages, and care for them as they grow." },
+    { name: "Clean-ups", icon: "🧹", title: "Street cleaning campaigns",
+      text: "Clean-up drives in urban and rural areas that clear litter from streets, parks and public spaces." },
+    { name: "Waste segregation", icon: "🗑️", title: "Dustbins and waste segregation",
+      text: "Installing dustbins and segregation points in public areas so dry and wet waste can be separated." },
+    { name: "Plastic-free", icon: "👜", title: "Plastic-free zones",
+      text: "Distributing cloth and jute bags to cut down on single-use plastic in markets and communities." },
+    { name: "Water", icon: "💧", title: "Water awareness",
+      text: "Events such as World Water Day that highlight saving water and keeping it clean for everyone." }
+  ];
+  const tabsEl = document.querySelector(".tabs");
+  function show(i) {
+    const p = programmes[i];
+    document.getElementById("p-icon").textContent = p.icon;
+    document.getElementById("p-title").textContent = p.title;
+    document.getElementById("p-text").textContent = p.text;
+    tabsEl.querySelectorAll(".tab").forEach((t, j) => t.classList.toggle("active", i === j));
+  }
+  programmes.forEach((p, i) => {
+    const b = document.createElement("button");
+    b.className = "tab"; b.textContent = p.name; b.setAttribute("role", "tab");
+    b.onclick = () => show(i);
+    tabsEl.appendChild(b);
+  });
+  show(0);
+
+  // Green pledge
+  const habits = [
+    ["🌱", "Plant or adopt a tree"],
+    ["👜", "Carry a cloth bag when shopping"],
+    ["🥤", "Say no to single-use plastic"],
+    ["🗑️", "Separate dry and wet waste at home"],
+    ["💧", "Turn off taps when not in use"],
+    ["💡", "Switch off lights and fans when leaving a room"],
+    ["🚲", "Walk, cycle or share rides for short trips"],
+    ["🧹", "Join a local clean-up drive"]
+  ];
+  const stages = [
+    [0, "🌰", "Seed"], [1, "🌱", "Sprout"], [3, "🌿", "Sapling"],
+    [5, "🌳", "Young tree"], [8, "🌳", "Full-grown tree"]
+  ];
+  const habitsEl = document.getElementById("habits");
+  const ring = document.getElementById("ring");
+  const C = 2 * Math.PI * 64;
+  ring.style.strokeDasharray = C;
+  ring.style.strokeDashoffset = C;
+
+  habits.forEach(([ic, text], i) => {
+    const l = document.createElement("label");
+    l.className = "habit";
+    l.innerHTML = `<input type="checkbox"><span class="ic">${ic}</span><span>${text}</span>`;
+    l.querySelector("input").onchange = update;
+    habitsEl.appendChild(l);
+  });
+
+  function update() {
+    const n = habitsEl.querySelectorAll("input:checked").length;
+    const stage = stages.filter(s => n >= s[0]).pop();
+    const tree = document.getElementById("tree");
+    ring.style.strokeDashoffset = C * (1 - n / habits.length);
+    tree.textContent = stage[1];
+    tree.style.transform = `scale(${0.8 + n * 0.04})`;
+    document.getElementById("level").textContent = n === habits.length ? "Full-grown tree! 🎉" : stage[2];
+    document.getElementById("level-sub").textContent = `${n} of ${habits.length} habits`;
+  }
+  update();
+
+  // Count-up stats
+  const counters = document.querySelectorAll("[data-count]");
+  function run(el) {
+    const end = +el.dataset.count, suf = el.dataset.suffix, isYear = end === 2020;
+    const start = isYear ? 2000 : 0, t0 = performance.now(), dur = 1200;
+    (function tick(now) {
+      const k = Math.min((now - t0) / dur, 1), v = Math.round(start + (end - start) * (1 - Math.pow(1 - k, 3)));
+      el.textContent = (isYear ? v : v.toLocaleString("en-IN")) + suf;
+      if (k < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } }), { threshold: .5 });
+    counters.forEach(c => io.observe(c));
+  } else counters.forEach(run);
+</script>
+</body>
+</html>
